@@ -12,8 +12,7 @@ import {
 	CompletionItem, CompletionItemKind
 } from 'vscode-languageserver';
 
-var x=require("./clj.js")
-console.log(x.hello())
+var helloclj=require("./clj.js")
 // Create a connection for the server. The connection uses Node's IPC as a transport
 let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
 
@@ -84,7 +83,7 @@ function validateTextDocument(textDocument: TextDocument): void {
 					start: { line: i, character: index},
 					end: { line: i, character: index + 10 }
 				},
-				message: `${line.substr(index, 10)} should be spelled Clojure`,
+				message: `${line.substr(index, 10)} should be spelled Clojure ${helloclj.hello()}`,
 				source: 'ex'
 			});
 		}
@@ -123,10 +122,10 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Comp
 connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
 	if (item.data === 1) {
 		item.detail = 'TypeScript details',
-		item.documentation = 'TypeScript documentation'
+		item.documentation = 'TypeScript documentation <a>so cool~</a>'+helloclj.hello()
 	} else if (item.data === 2) {
 		item.detail = 'JavaScript details',
-		item.documentation = 'JavaScript documentation'
+		item.documentation = 'JavaScript documentation'+helloclj.hello()
 	}
 	return item;
 });
